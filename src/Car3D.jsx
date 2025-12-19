@@ -585,7 +585,15 @@ export default function Car3D() {
   }
   
   return (
-    <div style={{ width: '1000px', height: '700px', background: '#0f0f23', position: 'relative' }}>
+    <div style={{ 
+      width: '100%', 
+      maxWidth: '1000px', 
+      height: '100vh',
+      maxHeight: '700px',
+      background: '#0f0f23', 
+      position: 'relative',
+      margin: '0 auto'
+    }}>
       <Canvas
         shadows
         camera={{ position: [8, 5, 8], fov: 50 }}
@@ -665,43 +673,58 @@ export default function Car3D() {
       {/* 左侧 UI 信息 */}
       <div style={{
         position: 'absolute',
-        top: 20,
-        left: 20,
+        top: '10px',
+        left: '10px',
         color: 'white',
         fontFamily: 'Arial, sans-serif',
         background: 'rgba(0,0,0,0.7)',
-        padding: '15px',
+        padding: '10px',
         borderRadius: '8px',
-        fontSize: '14px'
+        fontSize: 'clamp(10px, 2vw, 14px)',
+        maxWidth: 'calc(100vw - 240px)',
+        zIndex: 10
       }}>
-        <h2 style={{ margin: '0 0 10px 0' }}>🚗 3D 车模型</h2>
-        <p style={{ margin: '5px 0' }}>• 拖拽鼠标旋转视角</p>
-        <p style={{ margin: '5px 0' }}>• 滚轮缩放视图</p>
-        <p style={{ margin: '5px 0' }}>• 右键拖拽平移</p>
+        <h2 style={{ margin: '0 0 8px 0', fontSize: 'clamp(12px, 2.5vw, 16px)' }}>🚗 3D 车模型</h2>
+        <p style={{ margin: '3px 0', display: window.innerWidth < 768 ? 'none' : 'block' }}>• 拖拽鼠标旋转视角</p>
+        <p style={{ margin: '3px 0', display: window.innerWidth < 768 ? 'none' : 'block' }}>• 滚轮缩放视图</p>
+        <p style={{ margin: '3px 0', display: window.innerWidth < 768 ? 'none' : 'block' }}>• 右键拖拽平移</p>
       </div>
       
       {/* 右侧控制面板 */}
       <div style={{
         position: 'absolute',
-        top: 20,
-        right: 20,
+        top: window.innerWidth < 768 ? 'auto' : '10px',
+        bottom: window.innerWidth < 768 ? '10px' : 'auto',
+        right: '10px',
         color: 'white',
         fontFamily: 'Arial, sans-serif',
         background: 'rgba(0,0,0,0.8)',
-        padding: '20px',
+        padding: window.innerWidth < 768 ? '12px' : '20px',
         borderRadius: '12px',
-        fontSize: '14px',
-        minWidth: '200px',
+        fontSize: 'clamp(11px, 2vw, 14px)',
+        minWidth: window.innerWidth < 768 ? '180px' : '200px',
+        maxWidth: window.innerWidth < 768 ? 'calc(100vw - 20px)' : '250px',
         backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(255,255,255,0.1)'
+        border: '1px solid rgba(255,255,255,0.1)',
+        maxHeight: window.innerWidth < 768 ? '70vh' : 'calc(100vh - 40px)',
+        overflowY: 'auto',
+        zIndex: 10
       }}>
-        <h2 style={{ margin: '0 0 20px 0', fontSize: '18px', textAlign: 'center' }}>🎮 车辆控制</h2>
+        <h2 style={{ 
+          margin: '0 0 15px 0', 
+          fontSize: 'clamp(14px, 3vw, 18px)', 
+          textAlign: 'center' 
+        }}>🎮 车辆控制</h2>
         
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: window.innerWidth < 768 ? '8px' : '12px' 
+        }}>
           <button
             onClick={handleEngineToggle}
             style={{
-              padding: '12px',
+              padding: window.innerWidth < 768 ? '10px' : '12px',
               background: isEngineOn 
                 ? 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
                 : 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
@@ -709,10 +732,12 @@ export default function Car3D() {
               border: 'none',
               borderRadius: '8px',
               cursor: 'pointer',
-              fontSize: '14px',
+              fontSize: 'clamp(12px, 2.5vw, 14px)',
               fontWeight: 'bold',
               transition: 'all 0.3s ease',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+              boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+              minHeight: '44px',
+              WebkitTapHighlightColor: 'transparent'
             }}
             onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
             onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
@@ -727,7 +752,7 @@ export default function Car3D() {
             }}
             disabled={!isEngineOn}
             style={{
-              padding: '10px',
+              padding: window.innerWidth < 768 ? '8px' : '10px',
               background: lightsOn 
                 ? 'linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -735,9 +760,11 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'pointer' : 'not-allowed',
-              fontSize: '14px',
+              fontSize: 'clamp(11px, 2.5vw, 14px)',
               opacity: isEngineOn ? 1 : 0.5,
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              minHeight: '40px',
+              WebkitTapHighlightColor: 'transparent'
             }}
           >
             {lightsOn ? '💡 关闭车灯' : '🔦 开启车灯'}
@@ -750,7 +777,7 @@ export default function Car3D() {
             }}
             disabled={!isEngineOn}
             style={{
-              padding: '10px',
+              padding: window.innerWidth < 768 ? '8px' : '10px',
               background: hazardLights 
                 ? 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -758,9 +785,11 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'pointer' : 'not-allowed',
-              fontSize: '14px',
+              fontSize: 'clamp(11px, 2.5vw, 14px)',
               opacity: isEngineOn ? 1 : 0.5,
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              minHeight: '40px',
+              WebkitTapHighlightColor: 'transparent'
             }}
           >
             {hazardLights ? '⚠️ 关闭双闪' : '⚡ 开启双闪'}
@@ -772,7 +801,7 @@ export default function Car3D() {
             onClick={() => setDoorsOpen(!doorsOpen)}
             disabled={isEngineOn}
             style={{
-              padding: '10px',
+              padding: window.innerWidth < 768 ? '8px' : '10px',
               background: doorsOpen 
                 ? 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -780,9 +809,11 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'not-allowed' : 'pointer',
-              fontSize: '14px',
+              fontSize: 'clamp(11px, 2.5vw, 14px)',
               opacity: isEngineOn ? 0.5 : 1,
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              minHeight: '40px',
+              WebkitTapHighlightColor: 'transparent'
             }}
           >
             {doorsOpen ? '🚪 关闭车门' : '🔓 打开车门'}
@@ -792,7 +823,7 @@ export default function Car3D() {
             onClick={() => setHoodOpen(!hoodOpen)}
             disabled={isEngineOn}
             style={{
-              padding: '10px',
+              padding: window.innerWidth < 768 ? '8px' : '10px',
               background: hoodOpen 
                 ? 'linear-gradient(135deg, #c3cfe2 0%, #c3cfe2 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -800,9 +831,11 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'not-allowed' : 'pointer',
-              fontSize: '14px',
+              fontSize: 'clamp(11px, 2.5vw, 14px)',
               opacity: isEngineOn ? 0.5 : 1,
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              minHeight: '40px',
+              WebkitTapHighlightColor: 'transparent'
             }}
           >
             {hoodOpen ? '🔧 关闭引擎盖' : '🔩 打开引擎盖'}
@@ -812,7 +845,7 @@ export default function Car3D() {
             onClick={() => setTrunkOpen(!trunkOpen)}
             disabled={isEngineOn}
             style={{
-              padding: '10px',
+              padding: window.innerWidth < 768 ? '8px' : '10px',
               background: trunkOpen 
                 ? 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -820,9 +853,11 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'not-allowed' : 'pointer',
-              fontSize: '14px',
+              fontSize: 'clamp(11px, 2.5vw, 14px)',
               opacity: isEngineOn ? 0.5 : 1,
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              minHeight: '40px',
+              WebkitTapHighlightColor: 'transparent'
             }}
           >
             {trunkOpen ? '🛄 关闭后备箱' : '📦 打开后备箱'}
@@ -835,11 +870,17 @@ export default function Car3D() {
             onMouseDown={() => setIsMovingForward(true)}
             onMouseUp={() => setIsMovingForward(false)}
             onMouseLeave={() => setIsMovingForward(false)}
-            onTouchStart={() => setIsMovingForward(true)}
-            onTouchEnd={() => setIsMovingForward(false)}
+            onTouchStart={(e) => {
+              e.preventDefault()
+              setIsMovingForward(true)
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault()
+              setIsMovingForward(false)
+            }}
             disabled={!isEngineOn}
             style={{
-              padding: '12px',
+              padding: window.innerWidth < 768 ? '10px' : '12px',
               background: isMovingForward 
                 ? 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -847,10 +888,12 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'pointer' : 'not-allowed',
-              fontSize: '14px',
+              fontSize: 'clamp(11px, 2.5vw, 14px)',
               fontWeight: 'bold',
               opacity: isEngineOn ? 1 : 0.5,
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              minHeight: '44px',
+              WebkitTapHighlightColor: 'transparent'
             }}
           >
             {isMovingForward ? '🚗💨 前进中...' : '⬆️ 前进（按住）'}
@@ -861,11 +904,17 @@ export default function Car3D() {
             onMouseDown={() => setIsMovingBackward(true)}
             onMouseUp={() => setIsMovingBackward(false)}
             onMouseLeave={() => setIsMovingBackward(false)}
-            onTouchStart={() => setIsMovingBackward(true)}
-            onTouchEnd={() => setIsMovingBackward(false)}
+            onTouchStart={(e) => {
+              e.preventDefault()
+              setIsMovingBackward(true)
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault()
+              setIsMovingBackward(false)
+            }}
             disabled={!isEngineOn}
             style={{
-              padding: '12px',
+              padding: window.innerWidth < 768 ? '10px' : '12px',
               background: isMovingBackward 
                 ? 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -873,10 +922,12 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'pointer' : 'not-allowed',
-              fontSize: '14px',
+              fontSize: 'clamp(11px, 2.5vw, 14px)',
               fontWeight: 'bold',
               opacity: isEngineOn ? 1 : 0.5,
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              minHeight: '44px',
+              WebkitTapHighlightColor: 'transparent'
             }}
           >
             {isMovingBackward ? '🔙💨 后退中...' : '⬇️ 后退（按住）'}
@@ -884,11 +935,11 @@ export default function Car3D() {
         </div>
         
         <div style={{
-          marginTop: '15px',
-          padding: '10px',
+          marginTop: window.innerWidth < 768 ? '10px' : '15px',
+          padding: window.innerWidth < 768 ? '8px' : '10px',
           background: 'rgba(255,255,255,0.05)',
           borderRadius: '6px',
-          fontSize: '12px',
+          fontSize: 'clamp(10px, 2vw, 12px)',
           textAlign: 'center',
           border: '1px solid rgba(255,255,255,0.1)'
         }}>
@@ -896,7 +947,12 @@ export default function Car3D() {
             {isEngineOn ? '✅ 引擎运行中' : '⏸️ 引擎已关闭'}
           </p>
           {isEngineOn && (
-            <p style={{ margin: '5px 0 0 0', fontSize: '11px', opacity: 0.7 }}>
+            <p style={{ 
+              margin: '5px 0 0 0', 
+              fontSize: 'clamp(9px, 1.8vw, 11px)', 
+              opacity: 0.7,
+              display: window.innerWidth < 480 ? 'none' : 'block'
+            }}>
               启动时无法操作车门
             </p>
           )}

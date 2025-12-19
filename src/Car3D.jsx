@@ -591,7 +591,7 @@ export default function Car3D() {
   
   return (
     <div style={{ 
-      width: '1000px', 
+      width:  isPhone ? '' : '1000px', 
       height: '100vh',
       maxHeight: isPhone ? '100vh' : '700px',
       background: '#0f0f23', 
@@ -719,8 +719,8 @@ export default function Car3D() {
         padding: isPhone ? '15px' : '20px',
         borderRadius: isPhone ? '20px 20px 0 0' : '12px',
         fontSize: 'clamp(11px, 2vw, 14px)',
-        minWidth: isPhone ? '100%' : '200px',
-        maxWidth: isPhone ? '100%' : '250px',
+        minWidth: isPhone ? '' : '200px',
+        maxWidth: isPhone ? '' : '250px',
         backdropFilter: 'blur(10px)',
         border: isPhone ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.1)',
         borderBottom: isPhone ? 'none' : '1px solid rgba(255,255,255,0.1)',

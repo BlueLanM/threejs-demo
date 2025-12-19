@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useState, useEffect } from "react";
 import { Canvas, useFrame  } from "@react-three/fiber";
 import { useSpring, animated, config } from '@react-spring/three'
 import { OrbitControls } from '@react-three/drei'
@@ -56,9 +56,9 @@ function MyRotatingBox() {
 }
 
 // 添加粒子背景
-function Particles() {
+function Particles({ isMobile }) {
   const particlesRef = React.useRef();
-  const particleCount = 100;
+  const particleCount = isMobile ? 50 : 100; // 移动端减少粒子数
   
   const positions = React.useMemo(() => {
     const pos = new Float32Array(particleCount * 3);
@@ -98,14 +98,14 @@ function Particles() {
 }
 
 // 立方体内部的景观 - 星空能量核心
-function InnerScape() {
+function InnerScape({ isMobile }) {
   const particlesRef = React.useRef();
   const coreRef = React.useRef();
   const shockwaveRef = React.useRef();
   const ring1Ref = React.useRef();
   const ring2Ref = React.useRef();
   const ring3Ref = React.useRef();
-  const particleCount = 800;
+  const particleCount = isMobile ? 400 : 800; // 移动端减少粒子数
   
   // 创建内部星空粒子
   const positions = React.useMemo(() => {
@@ -332,9 +332,9 @@ function InnerScape() {
 }
 
 // 立方体周围的汇聚粒子光效
-function BoxParticles() {
+function BoxParticles({ isMobile }) {
   const particlesRef = React.useRef();
-  const particleCount = 200;
+  const particleCount = isMobile ? 100 : 200; // 移动端减少粒子数
   
   // 为每个粒子存储初始信息
   const particleData = React.useMemo(() => {
@@ -483,7 +483,7 @@ function Floor() {
 }
 
 // 场景控制器 - 根据相机距离切换场景
-function SceneController() {
+function SceneController({ isMobile }) {
   const [isInside, setIsInside] = useState(false);
   
   useFrame(({ camera }) => {
@@ -505,13 +505,13 @@ function SceneController() {
     <>
       {isInside ? (
         // 内部景观
-        <InnerScape />
+        <InnerScape isMobile={isMobile} />
       ) : (
         // 外部景观
         <>
           <MyRotatingBox />
-          <BoxParticles />
-          <Particles />
+          <BoxParticles isMobile={isMobile} />
+          <Particles isMobile={isMobile} />
           <Floor />
         </>
       )}
@@ -595,48 +595,75 @@ function DarkBackground() {
 }
 
 function App() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // 检测是否为移动设备
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
 	return (
 		<div id="canvas-container">
 			<Canvas
-        shadows
-        camera={{ position: [0, 0, 10], fov: 50 }}
-        gl={{ alpha: true }}
+        shadows={!isMobile} // 移动端禁用阴影以提高性能
+        camera={{ position: [0, 0, isMobile ? 12 : 10], fov: isMobile ? 60 : 50 }} // 移动端调整相机
+        gl={{ 
+          alpha: true,
+          antialias: !isMobile, // 移动端禁用抗锯齿以提高性能
+          powerPreference: isMobile ? 'low-power' : 'high-performance'
+        }}
         style={{ background: '#ffffff' }}
+        dpr={isMobile ? [1, 1.5] : [1, 2]} // 移动端限制设备像素比
       >
         <ambientLight intensity={0.3} />
         <directionalLight 
           position={[5, 5, 5]} 
           intensity={1}
-          castShadow
-          shadow-mapSize-width={300}
-          shadow-mapSize-height={300}
+          castShadow={!isMobile}
+          shadow-mapSize-width={isMobile ? 128 : 300}
+          shadow-mapSize-height={isMobile ? 128 : 300}
         />
-        <pointLight position={[-10, 0, -5]} color="#ffffff" intensity={1} />
-        <pointLight position={[10, 0, -5]} color="#06ffa5" intensity={1} />
+        {!isMobile && <pointLight position={[-10, 0, -5]} color="#ffffff" intensity={1} />}
+        {!isMobile && <pointLight position={[10, 0, -5]} color="#06ffa5" intensity={1} />}
         <spotLight 
           position={[0, 5, 0]} 
           angle={0.3} 
           penumbra={1} 
           intensity={0.5}
-          castShadow
+          castShadow={!isMobile}
         />
         
         {/* 添加轨道控制器 - 拖拽旋转视角 */}
         <OrbitControls 
           enableZoom={true}
-          enablePan={true}
+          enablePan={!isMobile} // 移动端禁用平移,避免与触摸滚动冲突
           enableRotate={true}
           maxDistance={20}
           minDistance={0.5}
           autoRotate={false}
           autoRotateSpeed={0.5}
+          enableDamping={true} // 添加阻尼效果,使交互更流畅
+          dampingFactor={0.05}
+          rotateSpeed={isMobile ? 0.5 : 1} // 移动端降低旋转速度
+          zoomSpeed={isMobile ? 0.5 : 1}
+          touches={{
+            ONE: THREE.TOUCH.ROTATE,
+            TWO: THREE.TOUCH.DOLLY_PAN
+          }}
         />
         
         {/* 深色背景层 - 在正方体内部 */}
         <DarkBackground />
         
         {/* 场景控制器 */}
-        <SceneController />
+        <SceneController isMobile={isMobile} />
         
         {/* 外部正方体容器 */}
         <CubeContainer />

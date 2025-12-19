@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "set BUILD_PATH=docs&& vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

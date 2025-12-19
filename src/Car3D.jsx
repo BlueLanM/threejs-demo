@@ -2,22 +2,22 @@ import { useRef, Suspense, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 
-// 车门组件 - 左前门（修复穿模问题）
+// 车门组件 - 左前门（从最前面旋转）
 function LeftFrontDoor({ isOpen }) {
   const doorRef = useRef()
   
   useFrame(() => {
     if (doorRef.current) {
-      const targetRotation = isOpen ? Math.PI / 2.5 : 0
+      const targetRotation = isOpen ? -Math.PI / 2.5 : 0
       doorRef.current.rotation.y += (targetRotation - doorRef.current.rotation.y) * 0.1
     }
   })
   
   return (
-    <group position={[1.05, 0.8, 0.5]}>
+    <group position={[1, 1, 0.6]}>
       <group ref={doorRef}>
-        {/* 车门本体 - 从边缘旋转 */}
-        <mesh position={[-0.05, 0, 0]}>
+        {/* 车门本体 - 从前端边缘旋转 */}
+        <mesh position={[-0.05, 0, -0.6]}>
           <boxGeometry args={[0.08, 0.8, 1.2]} />
           <meshStandardMaterial 
             color="#e74c3c" 
@@ -27,7 +27,7 @@ function LeftFrontDoor({ isOpen }) {
           />
         </mesh>
         {/* 车窗玻璃 */}
-        <mesh position={[-0.05, 0.2, 0]}>
+        <mesh position={[-0.05, 0.2, -0.6]}>
           <boxGeometry args={[0.09, 0.4, 1]} />
           <meshStandardMaterial 
             color="#87ceeb" 
@@ -39,7 +39,7 @@ function LeftFrontDoor({ isOpen }) {
           />
         </mesh>
         {/* 门把手 */}
-        <mesh position={[-0.1, 0, 0.3]}>
+        <mesh position={[-0.1, 0, -0.3]}>
           <boxGeometry args={[0.02, 0.05, 0.15]} />
           <meshStandardMaterial 
             color="#2c3e50" 
@@ -52,22 +52,22 @@ function LeftFrontDoor({ isOpen }) {
   )
 }
 
-// 车门组件 - 右前门（修复穿模问题）
+// 车门组件 - 右前门（从最前面旋转）
 function RightFrontDoor({ isOpen }) {
   const doorRef = useRef()
   
   useFrame(() => {
     if (doorRef.current) {
-      const targetRotation = isOpen ? -Math.PI / 2.5 : 0
+      const targetRotation = isOpen ? Math.PI / 2.5 : 0
       doorRef.current.rotation.y += (targetRotation - doorRef.current.rotation.y) * 0.1
     }
   })
   
   return (
-    <group position={[-1.05, 0.8, 0.5]}>
+    <group position={[-1, 1, 0.6]}>
       <group ref={doorRef}>
-        {/* 车门本体 - 从边缘旋转 */}
-        <mesh position={[0.05, 0, 0]}>
+        {/* 车门本体 - 从前端边缘旋转 */}
+        <mesh position={[0.05, 0, -0.6]}>
           <boxGeometry args={[0.08, 0.8, 1.2]} />
           <meshStandardMaterial 
             color="#e74c3c" 
@@ -77,7 +77,7 @@ function RightFrontDoor({ isOpen }) {
           />
         </mesh>
         {/* 车窗玻璃 */}
-        <mesh position={[0.05, 0.2, 0]}>
+        <mesh position={[0.05, 0.2, -0.6]}>
           <boxGeometry args={[0.09, 0.4, 1]} />
           <meshStandardMaterial 
             color="#87ceeb" 
@@ -89,7 +89,7 @@ function RightFrontDoor({ isOpen }) {
           />
         </mesh>
         {/* 门把手 */}
-        <mesh position={[0.1, 0, 0.3]}>
+        <mesh position={[0.1, 0, -0.3]}>
           <boxGeometry args={[0.02, 0.05, 0.15]} />
           <meshStandardMaterial 
             color="#2c3e50" 
@@ -377,7 +377,7 @@ function CarBody({ lightsOn, hazardLights }) {
       </mesh>
       
       {/* 后视镜 - 左 */}
-      <group position={[1.15, 1.1, 0.8]}>
+      <group position={[1, 1.1, 0.7]}>
         <mesh position={[0.1, 0, 0]}>
           <boxGeometry args={[0.05, 0.08, 0.12]} />
           <meshStandardMaterial color="#2c3e50" metalness={0.9} roughness={0.2} />
@@ -389,7 +389,7 @@ function CarBody({ lightsOn, hazardLights }) {
       </group>
       
       {/* 后视镜 - 右 */}
-      <group position={[-1.15, 1.1, 0.8]}>
+      <group position={[-1, 1.1, 0.7]}>
         <mesh position={[-0.1, 0, 0]}>
           <boxGeometry args={[0.05, 0.08, 0.12]} />
           <meshStandardMaterial color="#2c3e50" metalness={0.9} roughness={0.2} />

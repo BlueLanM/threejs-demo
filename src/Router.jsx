@@ -22,7 +22,9 @@ const router = createBrowserRouter([
       }
     ]
   }
-])
+], {
+  basename: '/threejs-demo/'
+})
 
 export default function Router() {
   return <RouterProvider router={router} />

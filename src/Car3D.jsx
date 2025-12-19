@@ -1,4 +1,4 @@
-import { useRef, Suspense, useState } from 'react'
+﻿import { useRef, Suspense, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 
@@ -575,6 +575,11 @@ export default function Car3D() {
   const [isMovingForward, setIsMovingForward] = useState(false)
   const [isMovingBackward, setIsMovingBackward] = useState(false)
   
+  // 判断是否为移动端
+  const isPhone = /Mobile|Android|iOS|iPhone|iPad|iPod|Windows Phone|KFAPWI/i.test(
+    navigator.userAgent
+  )
+  
   const handleEngineToggle = () => {
     setIsEngineOn(!isEngineOn)
     if (!isEngineOn) {
@@ -588,7 +593,7 @@ export default function Car3D() {
     <div style={{ 
       width: '1000px', 
       height: '100vh',
-      maxHeight: window.innerWidth < 768 ? '100vh' : '700px',
+      maxHeight: isPhone ? '100vh' : '700px',
       background: '#0f0f23', 
       position: 'relative',
       margin: '0 auto',
@@ -596,9 +601,9 @@ export default function Car3D() {
       flexDirection: 'column'
     }}>
       <div style={{
-        flex: window.innerWidth < 768 ? '1' : 'none',
+        flex: isPhone ? '1' : 'none',
         width: '100%',
-        height: window.innerWidth < 768 ? 'auto' : '100%',
+        height: isPhone ? 'auto' : '100%',
         position: 'relative'
       }}>
         <Canvas
@@ -685,45 +690,45 @@ export default function Car3D() {
           color: 'white',
           fontFamily: 'Arial, sans-serif',
           background: 'rgba(0,0,0,0.7)',
-          padding: window.innerWidth < 768 ? '8px 12px' : '10px',
+          padding: isPhone ? '8px 12px' : '10px',
           borderRadius: '8px',
           fontSize: 'clamp(10px, 2vw, 14px)',
-          maxWidth: window.innerWidth < 768 ? 'calc(100vw - 30px)' : 'calc(100vw - 240px)',
+          maxWidth: isPhone ? 'calc(100vw - 30px)' : 'calc(100vw - 240px)',
           zIndex: 10
         }}>
           <h2 style={{ 
             margin: '0 0 8px 0', 
             fontSize: 'clamp(12px, 2.5vw, 16px)' 
           }}>🚗 3D 车模型</h2>
-          <p style={{ margin: '3px 0', display: window.innerWidth < 768 ? 'none' : 'block' }}>• 拖拽鼠标旋转视角</p>
-          <p style={{ margin: '3px 0', display: window.innerWidth < 768 ? 'none' : 'block' }}>• 滚轮缩放视图</p>
-          <p style={{ margin: '3px 0', display: window.innerWidth < 768 ? 'none' : 'block' }}>• 右键拖拽平移</p>
+          <p style={{ margin: '3px 0', display: isPhone ? 'none' : 'block' }}>• 拖拽鼠标旋转视角</p>
+          <p style={{ margin: '3px 0', display: isPhone ? 'none' : 'block' }}>• 滚轮缩放视图</p>
+          <p style={{ margin: '3px 0', display: isPhone ? 'none' : 'block' }}>• 右键拖拽平移</p>
         </div>
       </div>
       
       {/* 右侧控制面板 / 移动端底部控制面板 */}
       <div style={{
-        position: window.innerWidth < 768 ? 'relative' : 'absolute',
-        top: window.innerWidth < 768 ? 'auto' : '10px',
-        bottom: window.innerWidth < 768 ? '0' : 'auto',
-        right: window.innerWidth < 768 ? '0' : '10px',
-        left: window.innerWidth < 768 ? '0' : 'auto',
+        position: isPhone ? 'relative' : 'absolute',
+        top: isPhone ? 'auto' : '10px',
+        bottom: isPhone ? '0' : 'auto',
+        right: isPhone ? '0' : '10px',
+        left: isPhone ? '0' : 'auto',
         color: 'white',
         fontFamily: 'Arial, sans-serif',
-        background: window.innerWidth < 768 ? 'rgba(0,0,0,0.95)' : 'rgba(0,0,0,0.8)',
-        padding: window.innerWidth < 768 ? '15px' : '20px',
-        borderRadius: window.innerWidth < 768 ? '20px 20px 0 0' : '12px',
+        background: isPhone ? 'rgba(0,0,0,0.95)' : 'rgba(0,0,0,0.8)',
+        padding: isPhone ? '15px' : '20px',
+        borderRadius: isPhone ? '20px 20px 0 0' : '12px',
         fontSize: 'clamp(11px, 2vw, 14px)',
-        minWidth: window.innerWidth < 768 ? '100%' : '200px',
-        maxWidth: window.innerWidth < 768 ? '100%' : '250px',
+        minWidth: isPhone ? '100%' : '200px',
+        maxWidth: isPhone ? '100%' : '250px',
         backdropFilter: 'blur(10px)',
-        border: window.innerWidth < 768 ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.1)',
-        borderBottom: window.innerWidth < 768 ? 'none' : '1px solid rgba(255,255,255,0.1)',
-        maxHeight: window.innerWidth < 768 ? '45vh' : 'calc(100vh - 40px)',
+        border: isPhone ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.1)',
+        borderBottom: isPhone ? 'none' : '1px solid rgba(255,255,255,0.1)',
+        maxHeight: isPhone ? '45vh' : 'calc(100vh - 40px)',
         overflowY: 'auto',
         overflowX: 'hidden',
         zIndex: 100,
-        boxShadow: window.innerWidth < 768 ? '0 -4px 20px rgba(0,0,0,0.5)' : 'none',
+        boxShadow: isPhone ? '0 -4px 20px rgba(0,0,0,0.5)' : 'none',
         WebkitOverflowScrolling: 'touch'
       }}>
         <h2 style={{ 
@@ -733,7 +738,7 @@ export default function Car3D() {
           position: 'relative'
         }}>
           🎮 车辆控制
-          {window.innerWidth < 768 && (
+          {isPhone && (
             <div style={{
               position: 'absolute',
               top: '-5px',
@@ -748,15 +753,15 @@ export default function Car3D() {
         </h2>
         
         <div style={{ 
-          display: window.innerWidth < 768 ? 'grid' : 'flex',
-          gridTemplateColumns: window.innerWidth < 768 ? 'repeat(2, 1fr)' : 'none',
-          flexDirection: window.innerWidth < 768 ? 'none' : 'column',
-          gap: window.innerWidth < 768 ? '8px' : '12px'
+          display: isPhone ? 'grid' : 'flex',
+          gridTemplateColumns: isPhone ? 'repeat(2, 1fr)' : 'none',
+          flexDirection: isPhone ? 'none' : 'column',
+          gap: isPhone ? '8px' : '12px'
         }}>
           <button
             onClick={handleEngineToggle}
             style={{
-              padding: window.innerWidth < 768 ? '10px 8px' : '12px',
+              padding: isPhone ? '10px 8px' : '12px',
               background: isEngineOn 
                 ? 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
                 : 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
@@ -764,13 +769,13 @@ export default function Car3D() {
               border: 'none',
               borderRadius: '8px',
               cursor: 'pointer',
-              fontSize: window.innerWidth < 768 ? 'clamp(11px, 2.2vw, 13px)' : 'clamp(12px, 2.5vw, 14px)',
+              fontSize: isPhone ? 'clamp(11px, 2.2vw, 13px)' : 'clamp(12px, 2.5vw, 14px)',
               fontWeight: 'bold',
               transition: 'all 0.3s ease',
               boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
               minHeight: '44px',
               WebkitTapHighlightColor: 'transparent',
-              gridColumn: window.innerWidth < 768 ? 'span 2' : 'auto'
+              gridColumn: isPhone ? 'span 2' : 'auto'
             }}
             onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
             onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
@@ -785,7 +790,7 @@ export default function Car3D() {
             }}
             disabled={!isEngineOn}
             style={{
-              padding: window.innerWidth < 768 ? '8px 6px' : '10px',
+              padding: isPhone ? '8px 6px' : '10px',
               background: lightsOn 
                 ? 'linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -793,7 +798,7 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'pointer' : 'not-allowed',
-              fontSize: window.innerWidth < 768 ? 'clamp(10px, 2vw, 12px)' : 'clamp(11px, 2.5vw, 14px)',
+              fontSize: isPhone ? 'clamp(10px, 2vw, 12px)' : 'clamp(11px, 2.5vw, 14px)',
               opacity: isEngineOn ? 1 : 0.5,
               transition: 'all 0.3s ease',
               minHeight: '40px',
@@ -810,7 +815,7 @@ export default function Car3D() {
             }}
             disabled={!isEngineOn}
             style={{
-              padding: window.innerWidth < 768 ? '8px 6px' : '10px',
+              padding: isPhone ? '8px 6px' : '10px',
               background: hazardLights 
                 ? 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -818,7 +823,7 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'pointer' : 'not-allowed',
-              fontSize: window.innerWidth < 768 ? 'clamp(10px, 2vw, 12px)' : 'clamp(11px, 2.5vw, 14px)',
+              fontSize: isPhone ? 'clamp(10px, 2vw, 12px)' : 'clamp(11px, 2.5vw, 14px)',
               opacity: isEngineOn ? 1 : 0.5,
               transition: 'all 0.3s ease',
               minHeight: '40px',
@@ -832,14 +837,14 @@ export default function Car3D() {
             height: '1px', 
             background: 'rgba(255,255,255,0.2)', 
             margin: '5px 0',
-            gridColumn: window.innerWidth < 768 ? 'span 2' : 'auto'
+            gridColumn: isPhone ? 'span 2' : 'auto'
           }} />
           
           <button
             onClick={() => setDoorsOpen(!doorsOpen)}
             disabled={isEngineOn}
             style={{
-              padding: window.innerWidth < 768 ? '8px 6px' : '10px',
+              padding: isPhone ? '8px 6px' : '10px',
               background: doorsOpen 
                 ? 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -847,7 +852,7 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'not-allowed' : 'pointer',
-              fontSize: window.innerWidth < 768 ? 'clamp(10px, 2vw, 12px)' : 'clamp(11px, 2.5vw, 14px)',
+              fontSize: isPhone ? 'clamp(10px, 2vw, 12px)' : 'clamp(11px, 2.5vw, 14px)',
               opacity: isEngineOn ? 0.5 : 1,
               transition: 'all 0.3s ease',
               minHeight: '40px',
@@ -861,7 +866,7 @@ export default function Car3D() {
             onClick={() => setHoodOpen(!hoodOpen)}
             disabled={isEngineOn}
             style={{
-              padding: window.innerWidth < 768 ? '8px 6px' : '10px',
+              padding: isPhone ? '8px 6px' : '10px',
               background: hoodOpen 
                 ? 'linear-gradient(135deg, #c3cfe2 0%, #c3cfe2 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -869,7 +874,7 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'not-allowed' : 'pointer',
-              fontSize: window.innerWidth < 768 ? 'clamp(10px, 2vw, 12px)' : 'clamp(11px, 2.5vw, 14px)',
+              fontSize: isPhone ? 'clamp(10px, 2vw, 12px)' : 'clamp(11px, 2.5vw, 14px)',
               opacity: isEngineOn ? 0.5 : 1,
               transition: 'all 0.3s ease',
               minHeight: '40px',
@@ -883,7 +888,7 @@ export default function Car3D() {
             onClick={() => setTrunkOpen(!trunkOpen)}
             disabled={isEngineOn}
             style={{
-              padding: window.innerWidth < 768 ? '8px 6px' : '10px',
+              padding: isPhone ? '8px 6px' : '10px',
               background: trunkOpen 
                 ? 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -891,7 +896,7 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'not-allowed' : 'pointer',
-              fontSize: window.innerWidth < 768 ? 'clamp(10px, 2vw, 12px)' : 'clamp(11px, 2.5vw, 14px)',
+              fontSize: isPhone ? 'clamp(10px, 2vw, 12px)' : 'clamp(11px, 2.5vw, 14px)',
               opacity: isEngineOn ? 0.5 : 1,
               transition: 'all 0.3s ease',
               minHeight: '40px',
@@ -905,7 +910,7 @@ export default function Car3D() {
             height: '1px', 
             background: 'rgba(255,255,255,0.2)', 
             margin: '5px 0',
-            gridColumn: window.innerWidth < 768 ? 'span 2' : 'auto'
+            gridColumn: isPhone ? 'span 2' : 'auto'
           }} />
           
           {/* 前进按钮 */}
@@ -923,7 +928,7 @@ export default function Car3D() {
             }}
             disabled={!isEngineOn}
             style={{
-              padding: window.innerWidth < 768 ? '10px 8px' : '12px',
+              padding: isPhone ? '10px 8px' : '12px',
               background: isMovingForward 
                 ? 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -931,7 +936,7 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'pointer' : 'not-allowed',
-              fontSize: window.innerWidth < 768 ? 'clamp(11px, 2.2vw, 13px)' : 'clamp(11px, 2.5vw, 14px)',
+              fontSize: isPhone ? 'clamp(11px, 2.2vw, 13px)' : 'clamp(11px, 2.5vw, 14px)',
               fontWeight: 'bold',
               opacity: isEngineOn ? 1 : 0.5,
               transition: 'all 0.3s ease',
@@ -957,7 +962,7 @@ export default function Car3D() {
             }}
             disabled={!isEngineOn}
             style={{
-              padding: window.innerWidth < 768 ? '10px 8px' : '12px',
+              padding: isPhone ? '10px 8px' : '12px',
               background: isMovingBackward 
                 ? 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
                 : 'rgba(255,255,255,0.1)',
@@ -965,7 +970,7 @@ export default function Car3D() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '8px',
               cursor: isEngineOn ? 'pointer' : 'not-allowed',
-              fontSize: window.innerWidth < 768 ? 'clamp(11px, 2.2vw, 13px)' : 'clamp(11px, 2.5vw, 14px)',
+              fontSize: isPhone ? 'clamp(11px, 2.2vw, 13px)' : 'clamp(11px, 2.5vw, 14px)',
               fontWeight: 'bold',
               opacity: isEngineOn ? 1 : 0.5,
               transition: 'all 0.3s ease',
@@ -978,14 +983,14 @@ export default function Car3D() {
         </div>
         
         <div style={{
-          marginTop: window.innerWidth < 768 ? '10px' : '15px',
-          padding: window.innerWidth < 768 ? '8px' : '10px',
+          marginTop: isPhone ? '10px' : '15px',
+          padding: isPhone ? '8px' : '10px',
           background: 'rgba(255,255,255,0.05)',
           borderRadius: '6px',
           fontSize: 'clamp(10px, 2vw, 12px)',
           textAlign: 'center',
           border: '1px solid rgba(255,255,255,0.1)',
-          gridColumn: window.innerWidth < 768 ? 'span 2' : 'auto'
+          gridColumn: isPhone ? 'span 2' : 'auto'
         }}>
           <p style={{ margin: '0' }}>
             {isEngineOn ? '✅ 引擎运行中' : '⏸️ 引擎已关闭'}
@@ -995,7 +1000,7 @@ export default function Car3D() {
               margin: '5px 0 0 0', 
               fontSize: 'clamp(9px, 1.8vw, 11px)', 
               opacity: 0.7,
-              display: window.innerWidth < 480 ? 'none' : 'block'
+              display: isPhone ? 'none' : 'block'
             }}>
               启动时无法操作车门
             </p>

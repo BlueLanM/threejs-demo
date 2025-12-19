@@ -4,8 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/threejs-demo/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-    <script type="module" crossorigin src="/threejs-demo/assets/index-CHw_3SCT.js"></script>
+    <title>ThreeJs - Demo by LanM</title>
+    <!-- GitHub Pages 单页应用路由修复 -->
+    <script type="text/javascript">
+      // 检查是否有从 404.html 重定向过来的路径信息
+      (function(){
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/threejs-demo/assets/index-DbVZbVeW.js"></script>
     <link rel="stylesheet" crossorigin href="/threejs-demo/assets/index-DekEHgyX.css">
   </head>
   <body>

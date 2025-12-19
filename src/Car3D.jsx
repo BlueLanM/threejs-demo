@@ -587,7 +587,6 @@ export default function Car3D() {
   return (
     <div style={{ 
       width: '1000px', 
-      maxWidth: '1000px', 
       height: '100vh',
       maxHeight: window.innerWidth < 768 ? '100vh' : '700px',
       background: '#0f0f23', 
